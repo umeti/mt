@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/umeti/mt/issues"
   },
-  "homepage": "https://github.com/umeti/mt#readme"
+  "homepage": "https://github.com/umeti/mt#readme",
+  "dependencies": {
+    "axios": "^0.23.0",
+    "cheerio": "^1.0.0-rc.10",
+    "dns2": "^2.0.1"
+  }
 }

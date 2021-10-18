@@ -1,0 +1,6 @@
+yarn.lock
+node_modules/
+tmp/
+tmp.*
+.*.sw*
+.env.local

@@ -1,0 +1,20 @@
+{
+  "name": "mt",
+  "version": "1.0.0",
+  "description": "不行了，经过这些时间的折腾，终于还是决定为自己打造一套工具。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umeti/mt.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/umeti/mt/issues"
+  },
+  "homepage": "https://github.com/umeti/mt#readme"
+}

@@ -1,5 +1,7 @@
 const { TCPClient,UDPClient,DOHClient } = require('dns2');
 const cli = require("cli")
+const axios = require('axios')
+const countryNames = require('./country-names.json')
 
 const SERVER = '1.1.1.1'
 
@@ -37,12 +39,29 @@ async function main(){
     for(let _ of result.answers){
       let s = `(${_.type}) `
       s += _.address || _.domain
+      s += await ipInfo(_.address)
       console.log(s)
     }
   } catch(error) {
     console.log(error);
   }
 
+}
+
+async function ipInfo(ip){
+  if(!ip) return ''
+
+  let res = await axios.get('http://ip-api.com/json/'+ip)
+  let _ = res.data
+  let s = ' '+[
+    countryNames[_.countryCode].zh,
+    _.regionName,
+    _.city+';',
+    _.isp+' /',
+    _.org,
+  ].join(' ')
+
+  return s
 }
 
 async function test() {

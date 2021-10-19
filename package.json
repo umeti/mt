@@ -22,5 +22,6 @@
     "cheerio": "^1.0.0-rc.10",
     "cli": "^1.0.1",
     "dns2": "^2.0.1"
-  }
+  },
+  "devDependencies": {}
 }

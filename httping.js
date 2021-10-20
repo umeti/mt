@@ -1,6 +1,7 @@
 
 const cli = require("cli")
 const axios = require('axios')
+const UserAgent = require('user-agents')
 
 cli.setApp("mt httping")
 const option = cli.parse({
@@ -19,7 +20,10 @@ async function main(){
     let status
     try {
       res = await axios.head(url,{
-      timeout:option.timeout * 1000
+      timeout:option.timeout * 1000,
+      headers:{
+        'user-agent':new UserAgent().toString()
+      }
     })
       status = res.status
     }catch(e){

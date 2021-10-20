@@ -21,16 +21,20 @@ async function main(){
     try {
       res = await axios.head(url,{
       timeout:option.timeout * 1000,
+      validateStatus:null,
+
       headers:{
         'user-agent':new UserAgent().toString()
       }
     })
       status = res.status
+      url = res.request.res.responseUrl
     }catch(e){
       status = e
     }
     let t2 = new Date().getTime()
-    console.log(` ${((t2-t1)/1000).toPrecision(3)}s ${status} ${url}`)
+
+    console.log(` ${((t2-t1)/1000).toPrecision(3)}s ${status} ${decodeURI(url)}`)
 
     
     await later(1000)

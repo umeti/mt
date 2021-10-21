@@ -5,7 +5,7 @@ const UserAgent = require('user-agents')
 
 cli.setApp("mt httping")
 const option = cli.parse({
-  timeout:['t',"超时时间",'float',3.0]
+  timeout:['t',"超时时间",'float',10.0]
 })
 
 async function main(){ 
@@ -15,11 +15,10 @@ async function main(){
     url = "https://"+url
   }
   while(true){
-    let t1 = new Date().getTime()
-    let res
-    let status
+    let msg
     try {
-      res = await axios.head(url,{
+      let t1 = new Date().getTime()
+      let res = await axios.head(url,{
       timeout:option.timeout * 1000,
       validateStatus:null,
 
@@ -27,15 +26,14 @@ async function main(){
         'user-agent':new UserAgent().toString()
       }
     })
-      status = res.status
+      let t2 = new Date().getTime()
       url = res.request.res.responseUrl
+      msg = `${((t2-t1)/1000).toPrecision(3)}s ${res.status}`
     }catch(e){
-      status = e
+      msg = e
     }
-    let t2 = new Date().getTime()
 
-    console.log(` ${((t2-t1)/1000).toPrecision(3)}s ${status} ${decodeURI(url)}`)
-
+    console.log(` ${msg} ${decodeURI(url)}`)
     
     await later(1000)
   }

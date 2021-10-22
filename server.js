@@ -9,7 +9,7 @@ let crontab = [{
 // 加载任务
 let cronModule = {}
 for(let _ of crontab){
-  let m = require(`${__dirname}/../cronjobs/${_.task}.js`)
+  let m = require(`${__dirname}/cronjobs/${_.task}.js`)
   cronModule[_.task] = m
 }
 

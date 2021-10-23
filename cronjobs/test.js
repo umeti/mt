@@ -1,7 +1,7 @@
 
 
-function tick(){
-  console.log("任务主体")
+function tick(ctx,log){
+  log.info("任务主体")
 }
 
 function stop(){

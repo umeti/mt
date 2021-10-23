@@ -1,32 +1,60 @@
 const cron = require('cron')
 const Koa = require('koa');
+const bunyan = require('bunyan');
+const yaml = require('yaml')
 
-let crontab = [{
-  task: 'test',
-  time: '* * * * * *',
-}]
+const fs = require('fs')
 
-// 加载任务
+const log = bunyan.createLogger({
+  name: "mt",
+});
+
+log.info('server up')
+
+log.info({event: 'load',data:'config'})
+const config = yaml.parse(fs.readFileSync(__dirname+'/config.yml','utf-8'))
+
+let crontab = config.crontab
+
+// 加载任务模块
 let cronModule = {}
 for(let _ of crontab){
-  let m = require(`${__dirname}/cronjobs/${_.task}.js`)
-  cronModule[_.task] = m
+  if(_.off) continue;
+  let name =`cronjobs/${_.task}.js` 
+  log.info({event: 'load',module:name})
+    try{
+    let m = require(`${__dirname}/${name}`)
+    cronModule[_.task] = m
+  }catch(err){
+    log.error(_,err)
+  }
 }
 
 let cronjobs = []
 for(let _ of crontab){
   let m = cronModule[_.task]
+  if(!m || _.off) continue;
+
   let job = new cron.CronJob(
-    _.time,
-    ctx => {
-      console.log(`定时任务 ${_.task} 触发`)
-      m.tick(ctx)
-      console.log(`定时任务 ${_.task} 完成`)
+    _.rule,
+    async function(){
+      let cronLog = log.child({
+        event:'cronjob',
+        task:_.task,
+        id: this.lastDate()
+      })
+      cronLog.info({action:'start'})
+      try{
+        await m.tick(this,cronLog)
+        cronLog.info({action:'done'})
+      }catch(err){
+        cronLog.error({action:'throw'},err)
+      }
     },
-    m.stop,
+    m.stop, // TODO: 封装
     true, // 立即start()
     'Asia/Shanghai',
-    undefined, // context
+    //undefined, // context
   )
   cronjobs.push(job)
 }

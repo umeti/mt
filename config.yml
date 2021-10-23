@@ -1,0 +1,9 @@
+
+crontab:
+  - task: test
+    rule: '* * * * * *'
+    off: true
+
+  - task: weather
+    rule: '*/5 * * * * *'
+    off: 

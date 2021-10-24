@@ -4,7 +4,8 @@
   "description": "不行了，经过这些时间的折腾，终于还是决定为自己打造一套工具。",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "catlog":"tail -f logs/server.log | ./node_modules/.bin/bunyan  -L -o short"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "daemon": "^1.1.0",
     "dns2": "^2.0.1",
     "koa": "^2.13.4",
+    "nedb": "^1.8.0",
     "user-agents": "^1.0.809",
     "yaml": "^1.10.2"
   },
